@@ -4,8 +4,21 @@ type User {
     email: String
 }
 
+enum MediaTypes {
+    AUDIO
+    VIDEO
+    DISCO
+}
+
+type MediaFile {
+    id: ID!
+    type: MediaTypes!
+    name: String!
+    duration: String!
+    addedBy: User!
+    url: String!
+}
+
 type Query {
-    userById(id: ID): User
-    userByUsername(username: String): User
-    users: [User]
+    medias: [MediaFile]
 }

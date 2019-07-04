@@ -2,6 +2,8 @@ package com.sipios.projectgraphqlhadrien;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
+import com.sipios.projectgraphqlhadrien.repository.MediaRepository;
+import com.sipios.projectgraphqlhadrien.repository.UserRepository;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
@@ -24,7 +26,7 @@ public class GraphQLProvider {
     private GraphQL graphQL;
 
     @Bean
-    public GraphQL graphQL() { 
+    public GraphQL graphQL() {
         return graphQL;
     }
 
@@ -49,9 +51,7 @@ public class GraphQLProvider {
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
                 .type(newTypeWiring("Query")
-                        .dataFetcher("userById", graphQLDataFetchers.getUserByIdDataFetcher())
-                        .dataFetcher("userByUsername", graphQLDataFetchers.getUserByUsernameDataFetcher())
-                        .dataFetcher("users", graphQLDataFetchers.getUsers())
+                        .dataFetcher("medias", graphQLDataFetchers.getMediasDataFetcher())
                 )
                 .build();
     }
