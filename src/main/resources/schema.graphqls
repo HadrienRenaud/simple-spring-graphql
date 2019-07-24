@@ -4,21 +4,24 @@ type User {
     email: String
 }
 
-enum MediaTypes {
-    AUDIO
-    VIDEO
-    DISCO
-}
-
-type MediaFile {
-    id: ID!
-    type: MediaTypes!
-    name: String!
-    duration: String!
-    addedBy: User!
-    url: String!
+type Message {
+    id: ID
+    author: User
+    createdAt: String
+    content: String
 }
 
 type Query {
-    medias: [MediaFile]
+    messages: [Message]
+    user(id: ID): User
+    message(id: ID): Message
+}
+
+type Mutation {
+    newMessage(content: String, authorId: ID): Message
+    signIn(username: String, email: String): User
+}
+
+type Subscription {
+    followChannel: Message
 }

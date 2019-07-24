@@ -1,0 +1,89 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Hadrien
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: username
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: varchar(1023)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  type: int
+                  name: message_id
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: content
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: datetime
+              - column:
+                  name: author
+                  type: int
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseColumnNames: author
+            baseTableName: messages
+            constraintName: fk_user_messages
+            onDelete: CASCADE
+            referencedColumnNames: user_id
+            referencedTableName: users
+      rollback:
+        - dropTable:
+            tableName: medias
+        - dropTable:
+            tableName: users
+  - changeSet:
+      id: 2
+      author: Hadrien
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: username
+                  value: Hadrien
+              - column:
+                  name: email
+                  value: hadrienr@sipios.com
+        - insert:
+            tableName: messages
+            columns:
+              - column:
+                  name: message_id
+                  value: 1
+              - column:
+                  name: content
+                  value: Bienvenue !
+              - column:
+                  name: author
+                  value: 1
+              - column:
+                  name: created_at
+                  value: 2019-07-23T07:06:31Z
