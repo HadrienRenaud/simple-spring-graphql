@@ -10,5 +10,6 @@ public interface MessageRepository extends JpaRepository<MessageModel, Integer> 
 
     List<MessageModel> findAll();
     Optional<MessageModel> findById(Integer id);
+    List<MessageModel> findAllByOrderByCreatedAtDesc();
 
 }
