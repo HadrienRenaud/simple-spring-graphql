@@ -7,8 +7,13 @@ import com.sipios.projectgraphqlhadrien.repository.UserRepository;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
 import io.leangen.graphql.annotations.GraphQLQuery;
+import io.leangen.graphql.annotations.GraphQLSubscription;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
+import org.reactivestreams.Publisher;
+import com.sipios.projectgraphqlhadrien.utils.SubscriberManager;
+import reactor.core.publisher.Flux;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.FluxSink;
 
 import java.util.List;
 
@@ -17,6 +22,7 @@ import java.util.List;
 public class MessageService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final SubscriberManager<String, FluxSink<MessageModel>> subscribers = new SubscriberManager<>();
 
     public MessageService(MessageRepository messageRepository, UserRepository userRepository) {
         this.messageRepository = messageRepository;
@@ -38,6 +44,14 @@ public class MessageService {
             @GraphQLArgument(name = "content") String content,
             @GraphQLArgument(name = "author") UserModel author
     ) {
-        return messageRepository.save(new MessageModel(content, userRepository.getById(author.getId()).orElse(null)));
+        MessageModel message = new MessageModel(content, userRepository.getById(author.getId()).orElse(null));
+        subscribers.get("all").forEach(subscriber -> subscriber.next(message));
+        return messageRepository.save(message);
+    }
+
+    @GraphQLSubscription(name = "newMessages")
+    public Publisher<MessageModel> subscribeToNewMessages() {
+        String code = "all";
+        return Flux.create(subscriber -> subscribers.add(code, subscriber.onDispose(() -> subscribers.remove(code, subscriber))), FluxSink.OverflowStrategy.LATEST);
     }
 }
