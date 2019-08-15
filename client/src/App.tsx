@@ -8,7 +8,6 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
-import { Sender } from './components/Sender/Sender'
 import { Stream } from './components/Stream/Stream';
 
 // Create an http link:
