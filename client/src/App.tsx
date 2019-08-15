@@ -46,13 +46,6 @@ const client = new ApolloClient({
     link: link,
   });
 
-const Footer = () => {
-    return <>
-        <p>This is Stream Line by Hadrien Renaud</p>
-        <p>Check this out on <a href="https://github.com/HadrienRenaud/simple-spring-graphql">Github</a></p>
-    </>
-};
-
 const App: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
 
