@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-boost';
@@ -10,6 +10,7 @@ import { getMainDefinition } from 'apollo-utilities';
 
 import { Stream } from './components/Stream/Stream';
 import { Sender } from './components/Sender/Sender';
+import { Login, User } from './components/Login/Login';
 
 // Create an http link:
 const httpLink = new HttpLink({
@@ -53,11 +54,16 @@ const Footer = () => {
 };
 
 const App: React.FC = () => {
+    const [user, setUser] = useState<User | null>(null);
+
     return (
         <div className="App">
             <ApolloProvider client={client}>
               <Stream />
-              <Sender />
+              {user 
+                ? <Sender author={user} />
+                : <Login onUserGot={setUser} />
+              }
             </ApolloProvider>
         </div>
     );
