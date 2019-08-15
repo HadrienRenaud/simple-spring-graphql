@@ -11,6 +11,7 @@ import io.leangen.graphql.annotations.GraphQLSubscription;
 import io.leangen.graphql.spqr.spring.annotations.GraphQLApi;
 import org.reactivestreams.Publisher;
 import com.sipios.projectgraphqlhadrien.utils.SubscriberManager;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import reactor.core.publisher.Flux;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.FluxSink;
@@ -39,6 +40,7 @@ public class MessageService {
         return messageRepository.findAllByOrderByCreatedAtDesc();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GraphQLMutation(name = "newMessage")
     public MessageModel newMessage(
             @GraphQLArgument(name = "content") String content,
