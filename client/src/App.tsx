@@ -9,6 +9,7 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
 import { Stream } from './components/Stream/Stream';
+import { Sender } from './components/Sender/Sender';
 
 // Create an http link:
 const httpLink = new HttpLink({
@@ -55,7 +56,8 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <ApolloProvider client={client}>
-                <Stream />
+              <Stream />
+              <Sender />
             </ApolloProvider>
         </div>
     );
