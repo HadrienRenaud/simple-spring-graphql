@@ -73,6 +73,30 @@ databaseChangeLog:
                   name: email
                   value: hadrienr@sipios.com
         - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: username
+                  value: Alice
+              - column:
+                  name: email
+                  value: alicea@sipios.com
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: user_id
+                  value: 3
+              - column:
+                  name: username
+                  value: Bob
+              - column:
+                  name: email
+                  value: Bobb@sipios.com
+        - insert:
             tableName: messages
             columns:
               - column:
