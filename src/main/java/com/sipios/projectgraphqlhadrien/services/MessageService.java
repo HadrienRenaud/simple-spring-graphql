@@ -48,8 +48,9 @@ public class MessageService {
             @GraphQLArgument(name = "author") UserModel author
     ) {
         MessageModel message = new MessageModel(content, userRepository.getById(author.getId()).orElse(null));
+        MessageModel saveMessage = messageRepository.save(message);
         subscriptions.forEach(subscriber -> subscriber.next(message));
-        return messageRepository.save(message);
+        return saveMessage;
     }
 
     @GraphQLSubscription(name = "newMessages")
