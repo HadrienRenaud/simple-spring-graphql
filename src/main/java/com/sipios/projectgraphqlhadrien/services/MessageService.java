@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @GraphQLApi
 @Component
 public class MessageService {
@@ -41,7 +42,6 @@ public class MessageService {
         return messageRepository.findAllByOrderByCreatedAtDesc();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GraphQLMutation(name = "newMessage")
     public MessageModel newMessage(
             @GraphQLArgument(name = "content") String content,
