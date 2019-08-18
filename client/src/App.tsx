@@ -16,15 +16,16 @@ import Typography from "@material-ui/core/Typography";
 import { Stream } from "./components/Stream/Stream";
 import { Sender } from "./components/Sender/Sender";
 import { Login, User } from "./components/Login/Login";
+import { GRAPHQL_ENDPOINT, WEBSOCKET_ENDPOINT } from "./config";
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: "http://localhost:8080/graphql"
+  uri: GRAPHQL_ENDPOINT
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:8080/graphql`,
+  uri: WEBSOCKET_ENDPOINT,
   options: {
     reconnect: true
   }
