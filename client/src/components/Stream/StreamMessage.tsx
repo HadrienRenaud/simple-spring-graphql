@@ -1,26 +1,24 @@
-import React from 'react';
+import React from "react";
 
-import { Message } from './Stream'
+import { Message } from "./Stream";
+import Card from "@material-ui/core/Card";
+import Typography from "@material-ui/core/Typography";
+import CardContent from "@material-ui/core/CardContent";
 
 interface StreamMessageProps {
-  message: Message
+  message: Message;
 }
 
-export function StreamMessage ({ message }: StreamMessageProps) {
+export function StreamMessage({ message }: StreamMessageProps) {
   return (
-    <div>
-      <h4>
-        {message.author
-          ? <>{message.author.username} sent</>
-          : <>A new message was sent</>
-        }:
-      </h4>
-      <p>
-        {message.content}
-      </p>
-      <em>
-        ({message.createdAt.toLocaleString()})
-      </em>
-    </div>
-  )
+    <Card style={{ marginTop: 32 }}>
+      <CardContent>
+        <Typography variant="body1">{message.content}</Typography>
+        <Typography variant="subtitle2">
+          {message.author && <>{message.author.username} - </>}
+          {new Date(message.createdAt).toLocaleString()}
+        </Typography>
+      </CardContent>
+    </Card>
+  );
 }
