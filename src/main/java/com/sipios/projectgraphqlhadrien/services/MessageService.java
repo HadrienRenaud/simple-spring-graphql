@@ -42,6 +42,12 @@ public class MessageService {
         return messageRepository.findAllByOrderByCreatedAtDesc();
     }
 
+    @GraphQLMutation(name = "deleteAllMessages")
+    public List<MessageModel> deleteAllMessages() {
+        messageRepository.deleteAll();
+        return allMessages();
+    }
+
     @GraphQLMutation(name = "newMessage")
     public MessageModel newMessage(
             @GraphQLArgument(name = "content") String content,
