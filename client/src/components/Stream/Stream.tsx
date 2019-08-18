@@ -12,6 +12,7 @@ const LIST_MESSAGES = gql`
       content
       createdAt
       author {
+        id
         username
       }
     }
@@ -25,6 +26,7 @@ const STREAM_MESSAGES = gql`
       content
       createdAt
       author {
+        id
         username
       }
     }
@@ -84,7 +86,7 @@ export function Stream() {
     messages = data.allMessages.sort((m1: Message, m2: Message) => {
       const d1 = new Date(m1.createdAt).getTime();
       const d2 = new Date(m2.createdAt).getTime();
-      return d1 - d2;
+      return d2 - d1;
     });
   }
 
@@ -101,7 +103,7 @@ export function Stream() {
               const newMessage = subscriptionData.data.newMessages;
               return {
                 ...prev,
-                allMessages: [...prev.allMessages, newMessage]
+                allMessages: [ newMessage, ...prev.allMessages ]
               };
             } else {
               return prev;
