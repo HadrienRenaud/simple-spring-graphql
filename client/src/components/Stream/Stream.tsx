@@ -19,20 +19,6 @@ const LIST_MESSAGES = gql`
   }
 `;
 
-const STREAM_MESSAGES = gql`
-  subscription newMessage {
-    newMessages {
-      id
-      content
-      createdAt
-      author {
-        id
-        username
-      }
-    }
-  }
-`;
-
 export interface Message {
   id?: number;
   content: string;
@@ -54,14 +40,9 @@ interface DisplayProps {
   messages: Array<Message>;
   loading: boolean;
   error?: ApolloError;
-  subscribeToNewMessages: () => void;
 }
 
 export class DisplayMessages extends React.Component<DisplayProps> {
-  componentDidMount() {
-    this.props.subscribeToNewMessages();
-  }
-
   render = () => {
     const { messages, loading, error } = this.props;
     return (
@@ -77,7 +58,7 @@ export class DisplayMessages extends React.Component<DisplayProps> {
 }
 
 export function Stream() {
-  const { loading, error, data, subscribeToMore } = useQuery<QueryData>(
+  const { loading, error, data } = useQuery<QueryData>(
     LIST_MESSAGES
   );
 
@@ -95,22 +76,6 @@ export function Stream() {
       loading={loading}
       error={error}
       messages={messages}
-      subscribeToNewMessages={() =>
-        subscribeToMore<SubscriptionData>({
-          document: STREAM_MESSAGES,
-          updateQuery: (prev, { subscriptionData }) => {
-            if (subscriptionData.data) {
-              const newMessage = subscriptionData.data.newMessages;
-              return {
-                ...prev,
-                allMessages: [ newMessage, ...prev.allMessages ]
-              };
-            } else {
-              return prev;
-            }
-          }
-        })
-      }
     />
   );
 }
