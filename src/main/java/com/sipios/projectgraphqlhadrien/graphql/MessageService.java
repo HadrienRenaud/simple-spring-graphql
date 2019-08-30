@@ -1,4 +1,4 @@
-package com.sipios.projectgraphqlhadrien.services;
+package com.sipios.projectgraphqlhadrien.graphql;
 
 import com.sipios.projectgraphqlhadrien.models.MessageModel;
 import com.sipios.projectgraphqlhadrien.models.UserModel;
